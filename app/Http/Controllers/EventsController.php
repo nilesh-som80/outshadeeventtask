@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Events;
 use App\Models\EventInvite;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventsRequest;
 use App\Http\Requests\UpdateEventsRequest;
 
@@ -91,5 +92,14 @@ class EventsController extends Controller
         $event->delete();
         $eventInvite = EventInvite::where("events_id",$event->id)->delete();
         return $event->name." deleted successfully";
+    }
+    public function AllEventsOfAUser(Request $request){
+        $events = Events::where("user_id",$request->user()->id)->get();
+        $invitedEvents = EventInvite::where("user_id",$request->user()->id)->with("events","events.user")->get();
+        $data = [
+            "OwnEvents"=>$events,
+            "InvitedEvents"=>$invitedEvents
+        ];
+        return $data;
     }
 }

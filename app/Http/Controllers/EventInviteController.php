@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\EventInvite;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventInviteRequest;
 use App\Http\Requests\UpdateEventInviteRequest;
 
@@ -16,8 +17,8 @@ class EventInviteController extends Controller
      */
     public function index(Request $request)
     {
-        
-        return EventInvite::with("events","user")->paginate(20);
+
+        return EventInvite::where("user_id",$request->user()->id)->with("events","events.user")->paginate(20);
     }
 
     /**

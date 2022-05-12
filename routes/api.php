@@ -29,6 +29,7 @@ Route::post('/resetPassword',[UserAuthController::class,"resetPassword"] )->midd
 Route::post("/updateResetPassword",[UserAuthController::class,"changePassword"])->name("password.update.api");
 Route::apiResource("/events",EventsController::class)->middleware("auth:api");
 Route::apiResource("/eventInvites",EventInviteController::class)->middleware("auth:api");
+Route::get("/AllEvents",[EventsController::class,"AllEventsOfAUser"])->middleware("auth:api");
 
 
 
